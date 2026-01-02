@@ -11,7 +11,11 @@ $comment    = $_POST["comment"];
 //2. DB接続します
 try {
   //Password:MAMP='root',XAMPP=''
-  $pdo = new PDO('mysql:dbname=gs_db_books;charset=utf8;host=localhost','root','');
+    $pdo = new PDO(
+        'mysql:dbname=gsyamanaka_php02;charset=utf8;host=mysql3112.db.sakura.ne.jp',
+        'gsyamanaka_php02',
+        'gsyamanaka_php02'
+    );
 } catch (PDOException $e) {
   exit('DBConnectError!!:'.$e->getMessage());
 }
