@@ -5,7 +5,7 @@
 書籍の登録など
 
 ## ③アプリのデプロイURL
-（ここにURLを記載）
+http://www.gsyamanaka.sakura.ne.jp/php02.1/
 
 ## ④工夫した点・こだわった点
 結果表示の画面をきれいにした
