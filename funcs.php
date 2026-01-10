@@ -6,8 +6,22 @@ function h($str){
 
 //環境変数を読み込む（ローカルとサーバー環境両対応）
 function load_env(){
-    $env_file = __DIR__ . '/.env';
-    if(file_exists($env_file)){
+    // 複数の場所から.envを探す
+    $possible_paths = [
+        __DIR__ . '/.env',                           // プロジェクトディレクトリ
+        '/home/gsyamanaka/db/.env',                  // サーバーのdb配下
+        dirname(dirname(__DIR__)) . '/.env'          // 親ディレクトリ
+    ];
+    
+    $env_file = null;
+    foreach($possible_paths as $path){
+        if(file_exists($path)){
+            $env_file = $path;
+            break;
+        }
+    }
+    
+    if($env_file && file_exists($env_file)){
         $lines = file($env_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach($lines as $line){
             if(strpos($line, '=') !== false && $line[0] !== '#'){
