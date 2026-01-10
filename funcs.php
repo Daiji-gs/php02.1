@@ -4,31 +4,31 @@ function h($str){
     return htmlspecialchars($str, ENT_QUOTES);
 }
 
-// //DB接続関数：db_conn()
-// function db_conn(){
-//     try {
-//         $db_name = "gsyamanaka_php02";    //データベース名
-//         $db_id   = "gsyamanaka_php02";      //アカウント名
-//         $db_pw   = "gsyamanaka_php02";          //パスワード：XAMPPはパスワード無し or MAMPはパスワード”root”に修正してください。
-//         $db_host = "mysql3112.db.sakura.ne.jp"; //DBホスト
-//         return new PDO('mysql:dbname='.$db_name.';charset=utf8;host='.$db_host, $db_id, $db_pw);
-//     } catch (PDOException $e) {
-//         exit('DB Connection Error:'.$e->getMessage());
-//     }
-// }
-
 //DB接続関数：db_conn()
 function db_conn(){
     try {
-        $db_name = "gs_db_books";    //データベース名
-        $db_id   = "root";      //アカウント名
-        $db_pw   = "";          //パスワード：XAMPPはパスワード無し or MAMPはパスワード”root”に修正してください。
-        $db_host = "localhost"; //DBホスト
+        $db_name = "gsyamanaka_php02";    //データベース名
+        $db_id   = "gsyamanaka_php02";      //アカウント名
+        $db_pw   = "gsyamanaka_php02";          //パスワード：XAMPPはパスワード無し or MAMPはパスワード”root”に修正してください。
+        $db_host = "mysql3112.db.sakura.ne.jp"; //DBホスト
         return new PDO('mysql:dbname='.$db_name.';charset=utf8;host='.$db_host, $db_id, $db_pw);
     } catch (PDOException $e) {
         exit('DB Connection Error:'.$e->getMessage());
     }
 }
+
+// //DB接続関数：db_conn()
+// function db_conn(){
+//     try {
+//         $db_name = "gs_db_books";    //データベース名
+//         $db_id   = "root";      //アカウント名
+//         $db_pw   = "";          //パスワード：XAMPPはパスワード無し or MAMPはパスワード”root”に修正してください。
+//         $db_host = "localhost"; //DBホスト
+//         return new PDO('mysql:dbname='.$db_name.';charset=utf8;host='.$db_host, $db_id, $db_pw);
+//     } catch (PDOException $e) {
+//         exit('DB Connection Error:'.$e->getMessage());
+//     }
+// }
 
 
 //SQLエラー関数：sql_error($stmt)
