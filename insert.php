@@ -3,28 +3,20 @@
 ini_set("display_errors", 1); // 1=表示、0=非表示
 
 //1. POSTデータ取得
-$name   = $_POST["name"];
-$url  = $_POST["url"];
-$comment    = $_POST["comment"];
+$name    = $_POST["name"];
+$url     = $_POST["url"];
+$comment = $_POST["comment"];
 
 
 //2. DB接続します
-try {
-  //Password:MAMP='root',XAMPP=''
-    $pdo = new PDO(
-        'mysql:dbname=gsyamanaka_php02;charset=utf8;host=mysql3112.db.sakura.ne.jp',
-        'gsyamanaka_php02',
-        'gsyamanaka_php02'
-    );
-} catch (PDOException $e) {
-  exit('DBConnectError!!:'.$e->getMessage());
-}
+include("funcs.php");
+$pdo = db_conn(); //returnから救い出している
 
 
-//３．データ登録SQL作成
-$sql="INSERT INTO gs_books_table(name,url,comment,date)VALUES(:name, :url, :comment, sysdate());";
+//３．データ登録SQL作成(***INSERT INTO gs_books_table***)
+$sql="INSERT INTO gs_books_table(name,url,comment,date)VALUES(:name, :url, :comment, sysdate());"; //ここで箱を作っている。
 $stmt = $pdo->prepare($sql);
-$stmt->bindValue(':name',    $name,    PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':name',    $name,    PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)　ここで上記の箱に安全に情報を入れる
 $stmt->bindValue(':url',     $url,     PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue(':comment', $comment, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 $status = $stmt->execute();
@@ -36,7 +28,7 @@ if($status==false){
   exit("SQLError!!:".$error[2]);
 }else{
   //５．index.phpへリダイレクト
- header("Location: index.php"); //Locationの頭は大文字。:とindexの間には、スペースがある。
+ header("Location: select.php"); //Locationの頭は大文字。:とindexの間には、スペースがある。
  exit();
 }
 ?>

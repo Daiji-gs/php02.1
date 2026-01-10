@@ -1,35 +1,24 @@
 <?php
-    //エラー表示
-    ini_set("display_errors", 1);
+//【重要】
+//insert.phpを修正（関数化）してからselect.phpを開く！！
+include("funcs.php");
+$pdo = db_conn();
 
-    //1.  DB接続します
-    try {
-      //Password:MAMP='root',XAMPP=''
-    $pdo = new PDO(
-        'mysql:dbname=gsyamanaka_php02;charset=utf8;host=mysql3112.db.sakura.ne.jp',
-        'gsyamanaka_php02',
-        'gsyamanaka_php02'
-    );
-    } catch (PDOException $e) {
-      exit('DBConnectError!!:'.$e->getMessage());
-    }
+//２．データ登録SQL作成
+$sql = "SELECT * FROM gs_books_table";
+$stmt = $pdo->prepare($sql);
+$status = $stmt->execute();
 
-    //２．データ登録SQL作成
-    $stmt = $pdo->prepare("SELECT * FROM gs_books_table");
-    $status = $stmt->execute();
 
-    //３．データ表示
-    $view="";
-    if($status==false) {
-      //execute（SQL実行時にエラーがある場合）
-      $error = $stmt->errorInfo();
-      exit("SQLError!!:".$error[2]);
-    }
+//３．データ表示
+$values = "";
+if($status==false) {
+  sql_error($stmt);
+}
 
-    //全データ取得
-    $values =  $stmt->fetchAll(PDO::FETCH_ASSOC); //PDO::FETCH_ASSOC[カラム名のみで取得できるモード]
-    //JSONに値を渡す場合に使う
-    $json = json_encode($values,JSON_UNESCAPED_UNICODE);
+//全データ取得
+$values =  $stmt->fetchAll(PDO::FETCH_ASSOC); //PDO::FETCH_ASSOC[カラム名のみで取得できるモード]
+$json = json_encode($values,JSON_UNESCAPED_UNICODE);
 
 ?>
 
@@ -60,19 +49,6 @@
 
 
 <!-- Main[Start] -->
-<!-- <div> -->
-    <!-- <div class="container jumbotron">
-      <table>
-        <?php foreach($values as $v){ ?>
-          <tr>
-            <td><?= $v["name"]?></td>
-            <td><?= $v["url"]?></td>
-            <td><?= $v["comment"]?></td>
-          </tr>
-        <?php } ?>
-      </table>
-    </div> -->
-
 <div class="container jumbotron">
   <table class="table table-striped table-bordered table-hover">
     <thead>
@@ -85,13 +61,11 @@
       </tr>
     </thead>
 
-    <tbody>
+    <tbody> <!-- XSS対策 -->
       <?php foreach($values as $v){ ?>
         <tr>
           <td><?= htmlspecialchars($v["id"] ?? "", ENT_QUOTES, "UTF-8") ?></td>
-
           <td><?= htmlspecialchars($v["name"] ?? "", ENT_QUOTES, "UTF-8") ?></td>
-
           <td>
             <?php if(!empty($v["url"])) { ?>
               <a href="<?= htmlspecialchars($v["url"], ENT_QUOTES, "UTF-8") ?>"
@@ -104,24 +78,20 @@
           <td><?= nl2br(htmlspecialchars($v["comment"] ?? "", ENT_QUOTES, "UTF-8")) ?></td>
 
           <td><?= htmlspecialchars($v["date"] ?? "", ENT_QUOTES, "UTF-8") ?></td>
+          <td><a href="detail.php?id=<?=h($v["id"])?>">📒更新</a></td>
+          <td><a href="delete.php?id=<?=h($v["id"])?>">🚮削除</a></td>
         </tr>
       <?php } ?>
     </tbody>
   </table>
 </div>
-
-
-
-
-<!-- </div> -->
 <!-- Main[End] -->
 
 
 <script>
   //JSON受け取り
-
-
-
+  const a = '<?php echo $json; ?>';
+  console.log(JSON.parse(a));
 </script>
 </body>
 </html>

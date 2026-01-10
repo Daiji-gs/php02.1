@@ -19,7 +19,7 @@
 <!-- Head[End] -->
 
 <!-- Main[Start] -->
-<form method="POST" action="insert.php">
+<form method="POST" action="insert.php">  <!--フォームのデータがinsert.phpに送信-->
   <div class="container">
     <div class="page-wrap">
       <div class="form-card">
@@ -39,12 +39,6 @@
           <div class="form-group">
             <label>書籍コメント</label>
             <textarea name="comment" class="form-control"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label>登録日時</label>
-            <input type="text" class="form-control"
-                   value="<?= date('Y-m-d H:i:s') ?>" readonly>
           </div>
 
           <button type="submit" class="btn btn-primary">送信</button>
