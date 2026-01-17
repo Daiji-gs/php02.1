@@ -1,6 +1,7 @@
 <?php
 //【重要】
 //insert.phpを修正（関数化）してからselect.phpを開く！！
+session_start();
 include("funcs.php");
 $pdo = db_conn();
 
@@ -36,7 +37,8 @@ $json = json_encode($values,JSON_UNESCAPED_UNICODE);
 </head>
 <body id="main">
 <!-- Head[Start] -->
-<header>
+
+<!-- <header>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -44,7 +46,13 @@ $json = json_encode($values,JSON_UNESCAPED_UNICODE);
       </div>
     </div>
   </nav>
+</header> -->
+
+<header>
+    <?php echo $_SESSION["name"]; ?>さん
+    <?php include("menu.php"); ?>
 </header>
+
 <!-- Head[End] -->
 
 
@@ -78,8 +86,11 @@ $json = json_encode($values,JSON_UNESCAPED_UNICODE);
           <td><?= nl2br(htmlspecialchars($v["comment"] ?? "", ENT_QUOTES, "UTF-8")) ?></td>
 
           <td><?= htmlspecialchars($v["date"] ?? "", ENT_QUOTES, "UTF-8") ?></td>
-          <td><a href="detail.php?id=<?=h($v["id"])?>">📒更新</a></td>
-          <td><a href="delete.php?id=<?=h($v["id"])?>">🚮削除</a></td>
+          <?php if(isset($_SESSION["kanri_flg"]) && $_SESSION["kanri_flg"] == 1) { ?>
+            <td><a href="detail.php?id=<?=h($v["id"])?>">📒更新</a></td>
+            <td><a href="delete.php?id=<?=h($v["id"])?>">🚮削除</a></td>
+          <?php } ?>
+
         </tr>
       <?php } ?>
     </tbody>
