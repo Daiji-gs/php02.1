@@ -1,6 +1,6 @@
 <?php
 //最初にSESSIONを開始！！ココ大事！！
-seccion_start();
+session_start();
 
 //POST値の受取り
 $lid = $_POST["lid"];
@@ -25,6 +25,10 @@ if($status==false){
 $val = $stmt->fetch();         //1レコードだけ取得する方法
 //$count = $stmt->fetchColumn(); //SELECT COUNT(*)で使用可能()
 
+// デバッグ：ユーザーデータが取得できたか確認
+if($val === false){
+    exit("ユーザーが見つかりません。入力したIDを確認してください。");
+}
 
 //5.該当１レコードがあればSESSIONに値を代入
 //入力したPasswordと暗号化されたPasswordを比較！[戻り値：true,false]
@@ -39,7 +43,7 @@ if($pw){
 
 }else{
   //Login失敗時(login.phpへ)
-  redirect("login.php");
+  exit("IDまたはパスワードが間違っています。");
 
 }
 

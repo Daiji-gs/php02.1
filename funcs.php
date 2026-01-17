@@ -37,12 +37,14 @@ function db_conn(){
     try {
         load_env(); //環境変数を読み込む
         
-        $db_name = getenv('DB_NAME');    //データベース名
-        $db_id   = getenv('DB_ID');      //アカウント名
-        $db_pw   = getenv('DB_PW');      //パスワード
-        $db_host = getenv('DB_HOST');    //DBホスト
+        // .env から読み込み、なければデフォルト値を使用
+        $db_name = getenv('DB_NAME') ?: "gs_db_books";
+        $db_id   = getenv('DB_ID') ?: "root";
+        $db_pw   = getenv('DB_PW') ?: "";
+        $db_host = getenv('DB_HOST') ?: "localhost";
         
-        return new PDO('mysql:dbname='.$db_name.';charset=utf8;host='.$db_host, $db_id, $db_pw);
+        $pdo = new PDO('mysql:dbname='.$db_name.';charset=utf8;host='.$db_host, $db_id, $db_pw);
+        return $pdo;
     } catch (PDOException $e) {
         exit('DB Connection Error:'.$e->getMessage());
     }

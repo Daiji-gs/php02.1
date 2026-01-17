@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `gs_db_books` (Users table)
 --
 
-CREATE TABLE `gs_db_books` (
+CREATE TABLE IF NOT EXISTS `gs_db_books` (
   `id` int(12) NOT NULL,
   `lid` varchar(128) NOT NULL,
   `lpw` varchar(255) NOT NULL,
@@ -40,7 +40,12 @@ CREATE TABLE `gs_db_books` (
 --
 
 INSERT INTO `gs_db_books` (`id`, `lid`, `lpw`, `name`, `kanri_flg`) VALUES
-(1, 'test1', '$2y$10$Dt8pNvJtaM/V0g1WYnVZfu8Mw1PJr8HKF8hcfCknwM.C2B3HPRHPW', 'test1', 1);
+(1, 'test1', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P3wZ7i', 'test1', 1)
+ON DUPLICATE KEY UPDATE 
+  `lid`=VALUES(`lid`), 
+  `lpw`=VALUES(`lpw`), 
+  `name`=VALUES(`name`), 
+  `kanri_flg`=VALUES(`kanri_flg`);
 
 --
 -- Indexes for table `gs_db_books`

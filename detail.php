@@ -1,9 +1,8 @@
 <?php
-//１．PHP
-//select.phpのPHPコードをマルっとコピーしてきます。
-//※SQLとデータ取得の箇所を修正します。
-$id = $_GET["id"]; //GETで受け取る
+session_start();
 include("funcs.php");
+sschk();
+$id = $_GET["id"]; //?id~**を受け取る
 $pdo = db_conn();
 
 //２．データ登録SQL作成
@@ -57,9 +56,9 @@ $v =  $stmt->fetch(); //１レコードのみ取得
   <div class="jumbotron">
    <fieldset>
     <legend>フリーアンケート・更新</legend>
-     <label>書籍名：<input type="text" name="name" value="<?=$v["name"]?>"></label><br>
-     <label>URL：<input type="text" name="url" value="<?=$v["url"]?>"></label><br>
-     <label>コメント：<textArea name="comment" rows="4" cols="40"><?=$v["comment"]?></textArea></label><br>
+     <label>書籍名：<input type="text" name="name" value="<?=htmlspecialchars($v["name"] ?? "", ENT_QUOTES, "UTF-8")?>"></label><br>
+     <label>URL：<input type="text" name="url" value="<?=htmlspecialchars($v["url"] ?? "", ENT_QUOTES, "UTF-8")?>"></label><br>
+     <label>コメント：<textArea name="comment" rows="4" cols="40"><?=htmlspecialchars($v["comment"] ?? "", ENT_QUOTES, "UTF-8")?></textArea></label><br>
      <input type="hidden" name="id" value="<?=$v["id"]?>">
      <input type="submit" value="送信">
     </fieldset>

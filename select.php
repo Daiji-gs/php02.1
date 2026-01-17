@@ -3,6 +3,11 @@
 //insert.phpを修正（関数化）してからselect.phpを開く！！
 session_start();
 include("funcs.php");
+
+//LOGINチェック → funcs.phpへ関数化しましょう！
+sschk();
+
+
 $pdo = db_conn();
 
 //２．データ登録SQL作成
